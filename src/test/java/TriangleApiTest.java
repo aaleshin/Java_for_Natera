@@ -1,10 +1,15 @@
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import objects.Triangle;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 import static io.restassured.RestAssured.given;
+import static objects.Helpers.deleteAllTriangles;
+import static objects.Helpers.requestSpecification;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class TriangleApiTest {
@@ -13,32 +18,29 @@ public class TriangleApiTest {
 
     @BeforeClass
     public void setUp() {
-        RestAssured.baseURI = "https://qa-quiz.natera.com";
-        RequestSpecBuilder builder = new RequestSpecBuilder();
-        builder.addHeader("Content-Type", "application/json");
-        builder.addHeader("X-User", "7ef95f96-0f68-446a-8ea1-8b6fd6de894c");
-        requestSpec = builder.build();
+        requestSpec = requestSpecification();
+    }
+
+    @AfterTest
+    public void clear() {
+        deleteAllTriangles();
     }
 
     @Test
     public void createTriangle() {
         Triangle triangle = new Triangle();
-        triangle.setSide("input",3,4,5, ";");
-//        triangle.setSideB(3);
-//        triangle.setSideC(4);
-//        triangle.setSeparator(";");
+        triangle.setSide("separator", "input", 3, 4, 5, ";");
 
-        int triangleID = given()
+        String triangleID = given()
                 .spec(requestSpec)
-                .body(triangle)
+                .body(triangle.getTriangle().toString())
                 .when().post("/triangle").then()
-                .statusCode(201)
+                .statusCode(200)
                 .extract().path("id");
-        System.out.println(triangleID);
 
         given().spec(requestSpec)
                 .pathParam("triangleID", triangleID)
-                .when().get("/triangle").then()
+                .when().get("/triangle/{triangleID}").then()
                 .statusCode(200);
     }
 }

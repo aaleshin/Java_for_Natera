@@ -1,28 +1,34 @@
 package objects;
 
-import java.util.HashMap;
 import java.util.Map;
+import org.json.JSONObject;
 
 public class Triangle {
-    private Map<String, String> triangle;
+    private JSONObject triangle;
+    private int lengthA;
+    private int lengthB;
+    private int lengthC;
+    private String separatorView;
+    private String inputValue;
+    private String separatorValue;
 
     public Triangle() {
-        triangle = new HashMap<>();
+        triangle = new JSONObject();
     }
 
-    public void setSide(String inputValue, float lengthA, float lengthB, float lengthC, String separatorView) {
-        triangle.put(inputValue, Float.toString(lengthA) + separatorView + Float.toString(lengthB) + separatorView + Float.toString(lengthC));
+    public void setSide(String separatorValue, String inputValue, int lengthA, int lengthB, int lengthC, String separatorView) {
+        this.lengthA = lengthA;
+        this.lengthB = lengthB;
+        this.lengthC = lengthC;
+        this.separatorView = separatorView;
+        this.inputValue = inputValue;
+        this.separatorValue = separatorValue;
     }
 
-//    public void setSideB(int lengthB) {
-//        triangle.put("input", Integer.toString(lengthB));
-//    }
-//
-//    public void setSideC(int lengthC) {
-//        triangle.put("input", Integer.toString(lengthC));
-//    }
+    public JSONObject getTriangle() {
+        triangle.put(separatorValue, separatorView);
+        triangle.put(inputValue, Integer.toString(lengthA) + separatorView + Integer.toString(lengthB) + separatorView + Integer.toString(lengthC));
+        return this.triangle;
+    }
 
-//    public void setSeparator(String separatorView) {
-//        triangle.put("separator", separatorView);
-//    }
 }
