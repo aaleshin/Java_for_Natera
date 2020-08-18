@@ -1,6 +1,4 @@
-# Java_for_Natera
-
-Checklist of test cases
+# Checklist of test cases
 
 Creating a triangle:
 1. Create a triangle
