@@ -1,0 +1,2 @@
+public class GetApiMethodTests {
+}

@@ -41,13 +41,36 @@ public class Helpers {
         }
     }
 
-    public static String createTriangle(Triangle triangle) {
+    public static String createNewTriangle(Triangles triangle) {
         return given()
                 .spec(requestSpecification())
                 .body(triangle.getTriangle().toString())
                 .when().post("/triangle").then()
                 .statusCode(200)
                 .extract().path("id");
+    }
+
+    public static ValidatableResponse getNewTriangle(String triangleID) {
+        return given().spec(requestSpecification())
+                .pathParam("triangleID", triangleID)
+                .when().get("/triangle/{triangleID}").then()
+                .statusCode(200);
+    }
+
+    public static ValidatableResponse tryCreateTriangle(Triangles triangle) {
+        return given()
+                .spec(requestSpecification())
+                .body(triangle.getTriangle().toString())
+                .when().post("/triangle").then()
+                .statusCode(422);
+    }
+
+    public static ValidatableResponse tryUseWrongHttpMethod(Triangles triangle) {
+        return given()
+                .spec(requestSpecification())
+                .body(triangle.getTriangle().toString())
+                .when().put("/triangle").then()
+                .statusCode(405);
     }
 }
 

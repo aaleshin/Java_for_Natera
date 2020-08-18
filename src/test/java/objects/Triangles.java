@@ -1,22 +1,21 @@
 package objects;
 
-import java.util.Map;
 import org.json.JSONObject;
 
-public class Triangle {
+public class Triangles {
     private JSONObject triangle;
-    private int lengthA;
-    private int lengthB;
-    private int lengthC;
+    private float lengthA;
+    private float lengthB;
+    private float lengthC;
     private String separatorView;
     private String inputValue;
     private String separatorValue;
 
-    public Triangle() {
+    public Triangles() {
         triangle = new JSONObject();
     }
 
-    public void setSide(String separatorValue, String inputValue, int lengthA, int lengthB, int lengthC, String separatorView) {
+    public void setSide(String separatorValue, String inputValue, float lengthA, float lengthB, float lengthC, String separatorView) {
         this.lengthA = lengthA;
         this.lengthB = lengthB;
         this.lengthC = lengthC;
@@ -27,7 +26,7 @@ public class Triangle {
 
     public JSONObject getTriangle() {
         triangle.put(separatorValue, separatorView);
-        triangle.put(inputValue, Integer.toString(lengthA) + separatorView + Integer.toString(lengthB) + separatorView + Integer.toString(lengthC));
+        triangle.put(inputValue, Float.toString(lengthA) + separatorView + Float.toString(lengthB) + separatorView + Float.toString(lengthC));
         return this.triangle;
     }
 
