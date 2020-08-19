@@ -101,7 +101,7 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangleWithChangingTheKeyValueForTheSides() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "Lol", 2, 2, 3, ";");
+        triangle.setSide("separator", "~!@#$%^&*()?>,./<][ /*<!—«»♣☺♂", 2, 2, 3, ";");
 
         ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
         failedTriangl.assertThat()
@@ -124,10 +124,10 @@ public class CreateApiMethodTests {
         triangle.setSide("separator", "input", 1, 1, 2, ";");
 
         given()
-            .spec(requestSpec)
-            .body(triangle.getTriangle())
-            .when().post("/triangle").then()
-            .statusCode(422);  // its bug: Expected status code <422> but was <500>.
+                .spec(requestSpec)
+                .body(triangle.getTriangle())
+                .when().post("/triangle").then()
+                .statusCode(422);  // its bug: Expected status code <422> but was <500>.
     }
 
     @Test
@@ -175,4 +175,45 @@ public class CreateApiMethodTests {
         failedTriangl.assertThat()
                 .statusCode(422);
     }
+
+    @Test
+    public void createSquare() {
+        Triangles triangle = new Triangles();
+        triangle.setSquareSide("separator", "input", 1, 1, 2, 3, ";");
+
+        given()
+                .spec(requestSpec)
+                .body(triangle.getSquare().toString())
+                .when().post("/triangle").then()
+                .statusCode(422)
+                .extract().path("id"); // its bug: Expected status code <422> but was <200>.
+    }
+
+    @Test
+    public void createTriangleWithZeroBeforeSide() {
+        Triangles triangle = new Triangles();
+        triangle.setSide("input", "input", 020, 020, 030, ";");
+
+        String triangleID = createNewTriangle(triangle);
+
+        ValidatableResponse newTriangl = getNewTriangle(triangleID);
+        newTriangl.assertThat()
+                .statusCode(200) //??
+                .body("id", equalTo(triangleID))
+                .body("firstSide", equalTo(20.0f)) // its bug: Expected value 20 but actual 16.
+                .body("secondSide", equalTo(20.0f))
+                .body("thirdSide", equalTo(30.0f));
+    }
+
+    @Test
+    public void createTriangleWithZeroOnSide() {
+        Triangles triangle = new Triangles();
+        triangle.setSide("input", "input", 0, 0, 0, ";");
+
+        ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
+        failedTriangl.assertThat()
+                .statusCode(422); // its bug: Expected status code <422> but was <200>.
+
+    }
+
 }

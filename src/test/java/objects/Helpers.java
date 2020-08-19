@@ -41,6 +41,19 @@ public class Helpers {
         }
     }
 
+    public static ValidatableResponse deleteTriangle(String triangleID) {
+        return given().spec(requestSpecification())
+                .pathParam("triangleID", triangleID)
+                .when().delete("/triangle/{triangleID}").then()
+                .statusCode(200);
+    }
+
+    public static ValidatableResponse tryDeleteTriangle(String triangleID) {
+        return given().spec(requestSpecification())
+                .pathParam("triangleID", triangleID)
+                .when().delete("/triangle/{triangleID}").then().log().all();
+    }
+
     public static String createNewTriangle(Triangles triangle) {
         return given()
                 .spec(requestSpecification())
@@ -61,16 +74,20 @@ public class Helpers {
         return given()
                 .spec(requestSpecification())
                 .body(triangle.getTriangle().toString())
-                .when().post("/triangle").then()
-                .statusCode(422);
+                .when().post("/triangle").then().log().all();
     }
 
     public static ValidatableResponse tryUseWrongHttpMethod(Triangles triangle) {
         return given()
                 .spec(requestSpecification())
                 .body(triangle.getTriangle().toString())
-                .when().put("/triangle").then()
-                .statusCode(405);
+                .when().put("/triangle").then().log().all();
+    }
+
+    public static ValidatableResponse tryUseWrongHttpMethodWithId(String triangleID) {
+        return given().spec(requestSpecification())
+                .pathParam("triangleID", triangleID)
+                .when().put("/triangle/{triangleID}").then().log().all();
     }
 }
 
