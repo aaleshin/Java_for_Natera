@@ -29,31 +29,42 @@ Delete:
 6. Try various SQl: select*  Vb ??
 7. Try various SQl: DROP TABLE triangle  Vb ??
 8. Try various XSS: <script>alert("XSS1")</script>    V
-9. Try various HTML: < form % 20 action =»http: // live.hh.ru» > < input % 20 type =»submit» > < / form >   V
+9. Try various HTML: <form%20action=»http://live.hh.ru»><input%20type=»submit»></form   V
 10. Deleting a triangle with empty ID V
  
 Get all triangles:
-1. Get all the triangles(10)
-2. Get the answer if there are no triangles
-3. Use the wrong http method to get the triangle
-
+1. Get all the triangles(10) V
+2. Get the answer if there are no triangles   V 
+3. Use the wrong http method to get the triangle   V
+ 
 Get a triangle:
-1. Get a triangle
-2. Get a response when requesting a nonexistent triangle
-3. Use the wrong http method to get the triangle
-4. Pass various invalid characters to check system security
-5. Get a triangle with a previously deleted ID
+1. Get a triangle V
+2. Get a response when requesting a nonexistent triangle  V
+3. Try various invalid characters ‘~!@#$%^&*()?>,./\<][ /*<!—«»♣☺♂  V
+4. Get a triangle with a previously deleted ID   V
+5. Try various SQl: select*  V
+6. Try various SQl: DROP TABLE triangle   V
+7. Try various XSS: <script>alert("XSS1")</script>  V
+8. Try various HTML: <form%20action=»http://live.hh.ru»><input%20type=»submit»></form> V
 
 Get the triangle perimeter value:
 1. Get the perimeter of the triangle
 2. Get the answer when calculating the perimeter of a nonexistent triangle
 3. Use an invalid http method to calculate the perimeter of the triangle
-4. Pass various invalid characters to check system security
+4. Try various invalid characters ‘~!@#$%^&*()?>,./\<][ /*<!—«»♣☺♂  
 5. Get the perimeter of a previously deleted triangle
+6. Try various SQl: select*
+7. Try various SQl: DROP TABLE triangle
+8. Try various XSS: <script>alert("XSS1")</script>
+9. Try various HTML: <form%20action=»http://live.hh.ru»><input%20type=»submit»></form>
 
 Get the lower area of a triangle:
 1. Get the area of the triangle
 2. Get the answer when calculating the area of a nonexistent triangle
 3. Use an invalid http method to calculate the area of the triangle
-4. Pass various invalid characters to check system security
+4. Try various invalid characters ‘~!@#$%^&*()?>,./\<][ /*<!—«»♣☺♂  
 5. Get the area of a previously deleted triangle
+6. Try various SQl: select*
+7. Try various SQl: DROP TABLE triangle
+8. Try various XSS: <script>alert("XSS1")</script>
+9. Try various HTML: <form%20action=»http://live.hh.ru»><input%20type=»submit»></form>

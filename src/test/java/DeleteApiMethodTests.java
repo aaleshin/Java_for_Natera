@@ -27,12 +27,12 @@ public class DeleteApiMethodTests {
                 .pathParam("triangleID", "triangleID")
                 .when().get("/triangle/{triangleID}").then()
                 .assertThat()
-                .statusCode(404);  //- ?
+                .statusCode(404);
     }
 
     @Test
     public void deleteWithEmptyID() {
-        ValidatableResponse firstResponce = tryDeleteTriangle("");
+        ValidatableResponse firstResponce = deleteTriangle("");
         firstResponce.assertThat()
                 .statusCode(404); // its bug: Expected status code <404> but was <405>.
     }
@@ -73,7 +73,7 @@ public class DeleteApiMethodTests {
 
     @Test
     public void deleteSomeStringTriangle() {
-        ValidatableResponse firstResponce = tryDeleteTriangle("»‘~!@#$%^&*()?>,./<][ /*<!—«»♣☺♂");
+        ValidatableResponse firstResponce = deleteTriangle("»‘~!@#$%^&*()?>,./<][ /*<!—«»♣☺♂");
         firstResponce.assertThat()
                 .statusCode(400);
     }
@@ -94,14 +94,14 @@ public class DeleteApiMethodTests {
 
     @Test
     public void deleteXSS() {
-        ValidatableResponse firstResponce = tryDeleteTriangle("<script>alert('XSS1')</script>");
+        ValidatableResponse firstResponce = deleteTriangle("<script>alert('XSS1')</script>");
         firstResponce.assertThat()
                 .statusCode(400);
     }
 
     @Test
     public void deleteHTML() {
-        ValidatableResponse firstResponce = tryDeleteTriangle("<form%20action=»http://live.hh.ru»><input%20type=»submit»></form>");
+        ValidatableResponse firstResponce = deleteTriangle("<form%20action=»http://live.hh.ru»><input%20type=»submit»></form>");
         firstResponce.assertThat()
                 .statusCode(400);
     }
