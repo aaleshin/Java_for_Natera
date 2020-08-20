@@ -48,11 +48,11 @@ Get a triangle:
 8. Try various HTML: <form%20action=»http://live.hh.ru»><input%20type=»submit»></form> V
 
 Get the triangle perimeter value:
-1. Get the perimeter of the triangle
-2. Get the answer when calculating the perimeter of a nonexistent triangle
-3. Use an invalid http method to calculate the perimeter of the triangle
-4. Try various invalid characters ‘~!@#$%^&*()?>,./\<][ /*<!—«»♣☺♂  
-5. Get the perimeter of a previously deleted triangle
+1. Get the perimeter of the triangle   V
+2. Get the answer when calculating the perimeter of a nonexistent triangle    V
+3. Use an invalid http method to calculate the perimeter of the triangle     V
+4. Try various invalid characters ‘~!@#$%^&*()?>,./\<][ /*<!—«»♣☺♂    V
+5. Get the perimeter of a previously deleted triangle    V
 6. Try various SQl: select*
 7. Try various SQl: DROP TABLE triangle
 8. Try various XSS: <script>alert("XSS1")</script>

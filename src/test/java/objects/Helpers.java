@@ -62,6 +62,12 @@ public class Helpers {
                 .when().get("/triangle/{triangleID}").then().log().all();
     }
 
+    public static ValidatableResponse getTrianglePerimeter(String triangleID) {
+        return given().spec(requestSpecification())
+                .pathParam("triangleID", triangleID)
+                .when().get("/triangle/{triangleID}/perimeter").then().log().all();
+    }
+
     public static ValidatableResponse tryCreateTriangle(Triangles triangle) {
         return given()
                 .spec(requestSpecification())
@@ -84,6 +90,12 @@ public class Helpers {
 
     public static ValidatableResponse tryUseWrongHttpMethodForAll() {
         return given().spec(requestSpecification()).put("/triangle/all").then().log().all();
+    }
+
+    public static ValidatableResponse tryUseWrongHttpMethodForPerimeter(String triangleID) {
+        return given().spec(requestSpecification())
+                .pathParam("triangleID", triangleID)
+                .when().put("/triangle/{triangleID}/perimeter").then().log().all();
     }
 }
 

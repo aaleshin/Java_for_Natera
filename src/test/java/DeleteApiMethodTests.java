@@ -32,8 +32,8 @@ public class DeleteApiMethodTests {
 
     @Test
     public void deleteWithEmptyID() {
-        ValidatableResponse firstResponce = deleteTriangle("");
-        firstResponce.assertThat()
+        ValidatableResponse firstResponse = deleteTriangle("");
+        firstResponse.assertThat()
                 .statusCode(404); // its bug: Expected status code <404> but was <405>.
     }
 
@@ -50,12 +50,12 @@ public class DeleteApiMethodTests {
                 .extract().path("id");
 
 
-        ValidatableResponse firstResponce = deleteTriangle(triangleID);
-        firstResponce.assertThat()
+        ValidatableResponse firstResponse = deleteTriangle(triangleID);
+        firstResponse.assertThat()
                 .statusCode(200);
 
-        ValidatableResponse secondResponce = deleteTriangle(triangleID);
-        secondResponce.assertThat()
+        ValidatableResponse secondResponse = deleteTriangle(triangleID);
+        secondResponse.assertThat()
                 .statusCode(404); // its bug: Expected status code <404> but was <200>.
     }
 
@@ -73,36 +73,36 @@ public class DeleteApiMethodTests {
 
     @Test
     public void deleteSomeStringTriangle() {
-        ValidatableResponse firstResponce = deleteTriangle("»‘~!@#$%^&*()?>,./<][ /*<!—«»♣☺♂");
-        firstResponce.assertThat()
+        ValidatableResponse firstResponse = deleteTriangle("»‘~!@#$%^&*()?>,./<][ /*<!—«»♣☺♂");
+        firstResponse.assertThat()
                 .statusCode(400);
     }
 
     @Test
     public void deleteSelectSQL() {
-        ValidatableResponse firstResponce = deleteTriangle("Select*");
-        firstResponce.assertThat()
+        ValidatableResponse firstResponse = deleteTriangle("Select*");
+        firstResponse.assertThat()
                 .statusCode(400);  // its bug: Expected status code <400> but was <200>.
     }
 
     @Test
     public void deleteTableSQL() {
-        ValidatableResponse firstResponce = deleteTriangle("DROP TABLE Triangle");
-        firstResponce.assertThat()
+        ValidatableResponse firstResponse = deleteTriangle("DROP TABLE Triangle");
+        firstResponse.assertThat()
                 .statusCode(400);  // its bug: Expected status code <400> but was <200>.
     }
 
     @Test
     public void deleteXSS() {
-        ValidatableResponse firstResponce = deleteTriangle("<script>alert('XSS1')</script>");
-        firstResponce.assertThat()
+        ValidatableResponse firstResponse = deleteTriangle("<script>alert('XSS1')</script>");
+        firstResponse.assertThat()
                 .statusCode(400);
     }
 
     @Test
     public void deleteHTML() {
-        ValidatableResponse firstResponce = deleteTriangle("<form%20action=»http://live.hh.ru»><input%20type=»submit»></form>");
-        firstResponce.assertThat()
+        ValidatableResponse firstResponse = deleteTriangle("<form%20action=»http://live.hh.ru»><input%20type=»submit»></form>");
+        firstResponse.assertThat()
                 .statusCode(400);
     }
 }
