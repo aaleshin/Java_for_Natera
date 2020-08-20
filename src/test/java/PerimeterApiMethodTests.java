@@ -57,7 +57,7 @@ public class PerimeterApiMethodTests {
     }
 
     @Test
-    public void getPreviouslyDeletedTriangle() {
+    public void getPreviouslyDeletedTrianglePerimeter() {
         Triangles triangle = new Triangles();
         triangle.setSide("separator", "input", 1.5f, 1, 2, ";");
 

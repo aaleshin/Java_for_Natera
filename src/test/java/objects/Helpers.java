@@ -68,6 +68,12 @@ public class Helpers {
                 .when().get("/triangle/{triangleID}/perimeter").then().log().all();
     }
 
+    public static ValidatableResponse getTriangleArea(String triangleID) {
+        return given().spec(requestSpecification())
+                .pathParam("triangleID", triangleID)
+                .when().get("/triangle/{triangleID}/area").then().log().all();
+    }
+
     public static ValidatableResponse tryCreateTriangle(Triangles triangle) {
         return given()
                 .spec(requestSpecification())
@@ -96,6 +102,12 @@ public class Helpers {
         return given().spec(requestSpecification())
                 .pathParam("triangleID", triangleID)
                 .when().put("/triangle/{triangleID}/perimeter").then().log().all();
+    }
+
+    public static ValidatableResponse tryUseWrongHttpMethodForArea(String triangleID) {
+        return given().spec(requestSpecification())
+                .pathParam("triangleID", triangleID)
+                .when().put("/triangle/{triangleID}/area").then().log().all();
     }
 }
 

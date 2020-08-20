@@ -59,12 +59,12 @@ Get the triangle perimeter value:
 9. Try various HTML: <form%20action=»http://live.hh.ru»><input%20type=»submit»></form>
 
 Get the lower area of a triangle:
-1. Get the area of the triangle
-2. Get the answer when calculating the area of a nonexistent triangle
-3. Use an invalid http method to calculate the area of the triangle
-4. Try various invalid characters ‘~!@#$%^&*()?>,./\<][ /*<!—«»♣☺♂  
-5. Get the area of a previously deleted triangle
-6. Try various SQl: select*
-7. Try various SQl: DROP TABLE triangle
-8. Try various XSS: <script>alert("XSS1")</script>
-9. Try various HTML: <form%20action=»http://live.hh.ru»><input%20type=»submit»></form>
+1. Get the area of the triangle    V
+2. Get the answer when calculating the area of a nonexistent triangle    V
+3. Use an invalid http method to calculate the area of the triangle      V
+4. Try various invalid characters ‘~!@#$%^&*()?>,./\<][ /*<!—«»♣☺♂        V
+5. Get the area of a previously deleted triangle     V
+6. Try various SQl: select*     V
+7. Try various SQl: DROP TABLE triangle     V
+8. Try various XSS: <script>alert("XSS1")</script>    V
+9. Try various HTML: <form%20action=»http://live.hh.ru»><input%20type=»submit»></form>     V
