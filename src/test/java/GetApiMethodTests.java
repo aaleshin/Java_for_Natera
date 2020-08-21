@@ -34,7 +34,7 @@ public class GetApiMethodTests {
     @Test
     public void GetPreviouslyDeletedID() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", -1, -1, -1, ";");
+        triangle.setSide("separator", "input", "-1", "-1", "-1", ";");
 
         String triangleID = createNewTriangle(triangle);
 
@@ -58,14 +58,14 @@ public class GetApiMethodTests {
     public void getSelectSQL() {
         ValidatableResponse firstResponce = getNewTriangle("Select*");
         firstResponce.assertThat()
-                .statusCode(404);
+                .statusCode(400);  // its bug: Expected status code <400> but was <404>.
     }
 
     @Test
     public void getTableSQL() {
         ValidatableResponse firstResponce = getNewTriangle("DROP TABLE Triangle");
         firstResponce.assertThat()
-                .statusCode(404);  // its bug: Expected status code <400> but was <200>.
+                .statusCode(400);  // its bug: Expected status code <400> but was <404>.
     }
 
     @Test

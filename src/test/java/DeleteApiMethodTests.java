@@ -32,15 +32,15 @@ public class DeleteApiMethodTests {
 
     @Test
     public void deleteWithEmptyID() {
-        ValidatableResponse firstResponse = deleteTriangle("");
+        ValidatableResponse firstResponse = deleteTriangle(" ");
         firstResponse.assertThat()
-                .statusCode(404); // its bug: Expected status code <404> but was <405>.
+                .statusCode(404); // its bug: Expected status code <404> but was <200>.
     }
 
     @Test
     public void deleteDeletedTriangleBefore() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 1, 1, 2, ";");
+        triangle.setSide("separator", "input", "1", "1", "2", ";");
 
         String triangleID = given()
                 .spec(requestSpec)
@@ -62,7 +62,7 @@ public class DeleteApiMethodTests {
     @Test
     public void wrongHttpMethodForDelete() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 1, 1, 2, ";");
+        triangle.setSide("separator", "input", "1", "1", "2", ";");
 
         String triangleID = createNewTriangle(triangle);
 

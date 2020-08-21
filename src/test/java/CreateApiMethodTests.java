@@ -1,13 +1,17 @@
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+import objects.Square;
 import objects.Triangles;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static objects.Helpers.*;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.testng.Assert.assertEquals;
 
 public class CreateApiMethodTests {
 
@@ -26,7 +30,7 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangle() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 1, 1, 2, ";");
+        triangle.setSide("separator", "input", "1", "1", "2", ";");
 
         String triangleID = given()
                 .spec(requestSpec)
@@ -49,7 +53,7 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangleWithNegativeSideValues() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", -1, -1, -1, ";");
+        triangle.setSide("separator", "input", "-1", "-1", "-1", ";");
 
         String triangleID = createNewTriangle(triangle);
 
@@ -65,7 +69,7 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangleWithFloatSideValues() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 1.6f, -1.45f, -1.337f, ";");
+        triangle.setSide("separator", "input", "1.6", "-1.45", "-1.337", ";");
 
         String triangleID = createNewTriangle(triangle);
 
@@ -78,20 +82,20 @@ public class CreateApiMethodTests {
                 .body("thirdSide", equalTo(1.337f));
     }
 
-//    @Test
-//    public void createTriangleWithLargeNumericValueSide() {
-//        Triangles triangle = new Triangles();
-//        triangle.setSide("separator", "input", 103657657666566336879578978789789678975f, 23637567567356568578958796989705768578f, 33576756777777777777735673575675675675f, ";");
-//
-//        ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
-//        failedTriangl.assertThat()
-//                .statusCode(422);
-//    }
+    @Test
+    public void createTriangleWithLargeNumericValueSide() {
+        Triangles triangle = new Triangles();
+        triangle.setSide("separator", "input", "1036576576665663368795789787897896789751111111111111111", "1036576576665663368795789787897896789751111111111111111", "1036576576665663368795789787897896789751111111111111111", ";");
+
+        ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
+        failedTriangl.assertThat()
+                .statusCode(200);
+    }
 
     @Test
     public void createTriangleWithSideMoreThemSumOfTheOther() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 10, 2, 3, ";");
+        triangle.setSide("separator", "input", "10", "2", "3", ";");
 
         ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
         failedTriangl.assertThat()
@@ -101,7 +105,7 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangleWithChangingTheKeyValueForTheSides() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "~!@#$%^&*()?>,./<][ /*<!—«»♣☺♂", 2, 2, 3, ";");
+        triangle.setSide("separator", "~!@#$%^&*()?>,./<][ /*<!—«»♣☺♂", "2", "2", "3", ";");
 
         ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
         failedTriangl.assertThat()
@@ -111,7 +115,7 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangleWithInvalidHttpMethod() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 2, 2, 3, ";");
+        triangle.setSide("separator", "input", "2", "2", "3", ";");
 
         ValidatableResponse failedTriangl = tryUseWrongHttpMethod(triangle);
         failedTriangl.assertThat()
@@ -121,7 +125,7 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangleWithNonJson() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 1, 1, 2, ";");
+        triangle.setSide("separator", "input", "1", "1", "2", ";");
 
         given()
                 .spec(requestSpec)
@@ -133,13 +137,13 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangleWithInvalidSeparatorKey() {
         Triangles triangle = new Triangles();
-        triangle.setSide("input", "input", 2, 2, 3, ";");
+        triangle.setSide("Test", "input", "2", "2", "3", ";");
 
         String triangleID = createNewTriangle(triangle);
 
         ValidatableResponse newTriangl = getNewTriangle(triangleID);
         newTriangl.assertThat()
-                .statusCode(200) //??
+                .statusCode(200)
                 .body("id", equalTo(triangleID))
                 .body("firstSide", equalTo(2.0f))
                 .body("secondSide", equalTo(2.0f))
@@ -149,27 +153,17 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangleWithInvalidSeparator() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 2, 2, 3, "-");
+        triangle.setSide("separator", "input", "22", "22", "32", "-");
 
         ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
         failedTriangl.assertThat()
                 .statusCode(422); // its bug: Expected status code <422> but was <200>.
     }
 
-//    @Test
-//    public void createTriangleWithEmptySidesValues() {
-//        Triangles triangle = new Triangles();
-//        triangle.setSide("input", "input", None, 2, 3, ";");
-//
-//        ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
-//        failedTriangl.assertThat()
-//                .statusCode(422);
-//    }
-
     @Test
-    public void createTriangleWithoutSeparatorValue() {
+    public void createTriangleWithEmptySidesValues() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 2, 2, 3, "");
+        triangle.setSide("separator", "input", null, null, null, ";");
 
         ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
         failedTriangl.assertThat()
@@ -177,13 +171,23 @@ public class CreateApiMethodTests {
     }
 
     @Test
-    public void createSquare() {
+    public void createTriangleWithoutSeparatorValue() {
         Triangles triangle = new Triangles();
-        triangle.setSquareSide("separator", "input", 1, 1, 2, 3, ";");
+        triangle.setSide("separator", "input", "22", "22", "32", "");
+
+        ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
+        failedTriangl.assertThat()
+                .statusCode(422); // its bug: Expected status code <422> but was <200>.
+    }
+
+    @Test
+    public void createSquare() {
+        Square square = new Square();
+        square.setSquareSide("separator", "input", "1", "1", "2", "3", ";");
 
         given()
                 .spec(requestSpec)
-                .body(triangle.getSquare().toString())
+                .body(square.getSquare().toString())
                 .when().post("/triangle").then()
                 .statusCode(422)
                 .extract().path("id"); // its bug: Expected status code <422> but was <200>.
@@ -192,15 +196,15 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangleWithZeroBeforeSide() {
         Triangles triangle = new Triangles();
-        triangle.setSide("input", "input", 020, 020, 030, ";");
+        triangle.setSide("separator", "input", "020", "020", "030", ";");
 
         String triangleID = createNewTriangle(triangle);
 
         ValidatableResponse newTriangl = getNewTriangle(triangleID);
         newTriangl.assertThat()
-                .statusCode(200) //??
+                .statusCode(200)
                 .body("id", equalTo(triangleID))
-                .body("firstSide", equalTo(20.0f)) // its bug: Expected value 20 but actual 16.
+                .body("firstSide", equalTo(20.0f))
                 .body("secondSide", equalTo(20.0f))
                 .body("thirdSide", equalTo(30.0f));
     }
@@ -208,7 +212,7 @@ public class CreateApiMethodTests {
     @Test
     public void createTriangleWithZeroOnSide() {
         Triangles triangle = new Triangles();
-        triangle.setSide("input", "input", 0, 0, 0, ";");
+        triangle.setSide("separator", "input", "0", "0", "0", ";");
 
         ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
         failedTriangl.assertThat()
@@ -216,4 +220,56 @@ public class CreateApiMethodTests {
 
     }
 
+    @Test
+    public void createTenTriangle() {
+        Triangles triangle = new Triangles();
+        triangle.setSide("separator", "input", "1.6", "-1.45", "-1.337", ";");
+
+        List<String> AllTriangles = getAllTriangleValues(getAllTriangles(), "id");
+        assertEquals(AllTriangles.size(), 0);
+
+        for (int i = 0; i < 10; i++) {
+            String triangleID = createNewTriangle(triangle);
+            ValidatableResponse newTriangl = getNewTriangle(triangleID);
+            newTriangl.assertThat()
+                    .statusCode(200)
+                    .body("id", equalTo(triangleID));
+        }
+
+        AllTriangles = getAllTriangleValues(getAllTriangles(), "id");
+        assertEquals(AllTriangles.size(), 10);
+    }
+
+    @Test
+    public void createElevenTriangle() {
+        Triangles triangle = new Triangles();
+        triangle.setSide("separator", "input", "1.6", "-1.45", "-1.337", ";");
+
+        List<String> AllTriangles = getAllTriangleValues(getAllTriangles(), "id");
+        assertEquals(AllTriangles.size(), 0);
+
+        for (int i = 0; i < 10; i++) {
+            String triangleID = createNewTriangle(triangle);
+            ValidatableResponse newTriangl = getNewTriangle(triangleID);
+            newTriangl.assertThat()
+                    .statusCode(200)
+                    .body("id", equalTo(triangleID));
+        }
+        ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
+        failedTriangl.assertThat()
+                .statusCode(422); // its bug: Expected status code <422> but was <200>.
+
+        AllTriangles = getAllTriangleValues(getAllTriangles(), "id");
+        assertEquals(AllTriangles.size(), 10);
+    }
+
+    @Test
+    public void createTriangleWithTextOnSide() {
+        Triangles triangle = new Triangles();
+        triangle.setSide("separator", "input", "text", "text", "text", ";");
+
+        ValidatableResponse failedTriangl = tryCreateTriangle(triangle);
+        failedTriangl.assertThat()
+                .statusCode(422);
+    }
 }

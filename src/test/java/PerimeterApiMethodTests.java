@@ -25,7 +25,7 @@ public class PerimeterApiMethodTests {
     @Test
     public void getPerimeterTriangle() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 1.5f, -1, 2, ";");
+        triangle.setSide("separator", "input", "1.5", "-1", "2", ";");
 
         String triangleID = createNewTriangle(triangle);
 
@@ -47,7 +47,7 @@ public class PerimeterApiMethodTests {
     @Test
     public void getTrianglePerimeterWithWrongHTTP() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 1.5f, 1, 2, ";");
+        triangle.setSide("separator", "input", "1.5", "1", "2", ";");
 
         String triangleID = createNewTriangle(triangle);
 
@@ -59,7 +59,7 @@ public class PerimeterApiMethodTests {
     @Test
     public void getPreviouslyDeletedTrianglePerimeter() {
         Triangles triangle = new Triangles();
-        triangle.setSide("separator", "input", 1.5f, 1, 2, ";");
+        triangle.setSide("separator", "input", "1.5", "1", "2", ";");
 
         String triangleID = createNewTriangle(triangle);
 
@@ -83,14 +83,14 @@ public class PerimeterApiMethodTests {
     public void getSelectSQLPerimeter() {
         ValidatableResponse firstResponse = getTrianglePerimeter("Select*");
         firstResponse.assertThat()
-                .statusCode(404);  // ??
+                .statusCode(400);   // its bug: Expected status code <400> but was <404>.
     }
 
     @Test
     public void getTableSQLPerimeter() {
         ValidatableResponse firstResponse = getTrianglePerimeter("DROP TABLE Triangle");
         firstResponse.assertThat()
-                .statusCode(404);  // ??
+                .statusCode(400);   // its bug: Expected status code <400> but was <404>.
     }
 
     @Test
